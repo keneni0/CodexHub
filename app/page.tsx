@@ -1,3 +1,4 @@
+import React from "react";
 import ExploreBtn from "@/components/ExploreBtn";
 import Navbar from "@/components/Navbar";
 import EventCard from "@/components/EventCard";
