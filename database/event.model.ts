@@ -111,7 +111,8 @@ const EventSchema = new Schema<IEvent>(
 
 // Pre-save hook for slug generation and data normalization
 EventSchema.pre('save', function (next) {
-  const event = this as IEvent;
+  // Use correct context typing for Mongoose document in pre hook
+  const event = this;
 
   // Generate slug only if title changed or document is new
   if (event.isModified('title') || event.isNew) {
