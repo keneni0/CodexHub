@@ -52,7 +52,10 @@ const EventDetailsPage = async ({params}:{params: Promise<{slug: string}>}) => {
     if (!description) return notFound();
     
     // Fetch similar events inside the function
-    const similarEvents: IEvent[] = await getSimilarEventBySlug(slug);
+    // The return type from getSimilarEventBySlug is not necessarily IEvent[] (see lint error).
+    // Cast to 'any[]' to resolve type incompatibility, or use 'unknown[]' and validate later if needed.
+    // If you have a proper Event type, use it. For now, using 'any[]':
+    const similarEvents: any[] = await getSimilarEventBySlug(slug);
 
     // TODO: Replace with real bookings count when available
     const bookings = 10;
@@ -107,13 +110,22 @@ const EventDetailsPage = async ({params}:{params: Promise<{slug: string}>}) => {
             <div className="flex w-full flex-col gap-4 pt-20">
                 <h2>Similar Events</h2>
                 <div className="events">
-                    {similarEvents.length > 0 && similarEvents.map((event: IEvent) => (
-                        <EventCard key={event.id} {...event} />
-                    ))}
-                
-
+                    {similarEvents.length > 0 ? (
+                        similarEvents.map((event: any) => (
+                            <EventCard
+                                key={event.slug || event._id}
+                                title={event.title}
+                                image={event.image}
+                                slug={event.slug}
+                                location={event.location}
+                                date={event.date}
+                                time={event.time}
+                            />
+                        ))
+                    ) : (
+                        <p className="text-sm text-gray-400">No similar events found.</p>
+                    )}
                 </div>
-
             </div>
         </section>
   ) 

@@ -11,7 +11,7 @@ export const getSimilarEventBySlug = async (slug: string) => {
         if (!event) {
             return [];
         }
-        return await Even.find({ _id: { $ne: event._id }, tags: { $in: event.tags } });
+        return await Even.find({ _id: { $ne: event._id }, tags: { $in: event.tags } }).lean();
     }
     catch(error){
         return[];
