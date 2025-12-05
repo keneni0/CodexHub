@@ -24,6 +24,16 @@ export async function POST(req: NextRequest){
             if(!file) {
                 return NextResponse.json({ message: 'Image file is required'}, {status: 400})
             }
+            // Validate file type and size before uploading
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                return NextResponse.json({ message: 'Invalid file type. Only JPEG, PNG, and WEBP are allowed.'}, { status: 400 });
+            }
+            const MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
+            if (file.size > MAX_SIZE_BYTES) {
+                return NextResponse.json({ message: 'File is too large. Maximum size is 5MB.'}, { status: 400 });
+            }
+
             const arrayBuffer = await file.arrayBuffer();
             const buffer = Buffer.from(arrayBuffer);
 

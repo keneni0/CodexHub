@@ -2,6 +2,10 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { ImageDown } from "lucide-react";
 import BookEvent from "@/components/Book";
+import { getSimilarEventBySlug } from "@/lib/actions/eventactions";
+import { IEvent } from "@/database/event.model";
+import EventCard from "@/components/EventCard";
+
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -11,7 +15,16 @@ const EventDetailItem = ({icon,alt,label}: {icon:string,alt:string,label:string}
         <p>{label}</p>
     </div>
 )
-const bookings = 10;
+
+
+// FIX:
+// - Define the correct type for similarEvents. In this codebase, 'IEvent' is not present—likely use 'Event' or 'any' for now unless a proper Event type/interface is defined elsewhere.
+// - Ensure 'slug' is declared and available before use.
+
+// If 'slug' is only available in the EventDetailsPage function, then similarEvents should be fetched inside that scope, not top-level.
+// Since this is a top-level statement and 'slug' is not yet defined, remove this code from here and move fetching logic inside the component as needed.
+
+// Removed invalid code. Similar event fetching should be handled where 'slug' is in scope.
 
 const EventAgenda =({ agendaItems }: {agendaItems: string[] }) => (
     <div className="agenda">
@@ -37,6 +50,13 @@ const EventDetailsPage = async ({params}:{params: Promise<{slug: string}>}) => {
     const {event: { description, image, location, date, time, mode, audience, agenda, overview, tags,organizer}} = await request.json();
 
     if (!description) return notFound();
+    
+    // Fetch similar events inside the function
+    const similarEvents: IEvent[] = await getSimilarEventBySlug(slug);
+
+    // TODO: Replace with real bookings count when available
+    const bookings = 10;
+
     return (
     <section id='event'>
         <div className="header">
@@ -84,7 +104,19 @@ const EventDetailsPage = async ({params}:{params: Promise<{slug: string}>}) => {
                 </div>
             </aside>
             </div>
+            <div className="flex w-full flex-col gap-4 pt-20">
+                <h2>Similar Events</h2>
+                <div className="events">
+                    {similarEvents.length > 0 && similarEvents.map((event: IEvent) => (
+                        <EventCard key={event.id} {...event} />
+                    ))}
+                
+
+                </div>
+
+            </div>
         </section>
   ) 
 }
+
 export default EventDetailsPage
