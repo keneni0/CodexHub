@@ -7,19 +7,19 @@ import posthog from 'posthog-js'
 const Navbar = () => {
   return (
     <header>
-        <nav style={{ height: '130px', display: 'flex', alignItems: 'center', borderBottom: '1px solid #222', padding: '0 20px' }}>
+        <nav style={{ height: '90px', display: 'flex', alignItems: 'center', padding: '0 16px', justifyContent: 'space-between', gap: '16px' }}>
         <Link href='/' className="logo" onClick={() => posthog.capture('navbar_logo_clicked', { target_url: '/' })}>
-            <Image src="/icons/logo-v2.png" alt="logo" width={180} height={150} />
+            <Image src="/icons/logo-v2.png" alt="logo" width={140} height={110} />
         </Link>
 
-        <ul>
+        <ul style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
             <Link href="/" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Home', target_url: '/' })}>
                 Home
             </Link>
             <Link href="/" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Events', target_url: '/' })}>
                 Events
             </Link>
-            <Link href="/" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Create', target_url: '/' })}>
+            <Link href="/create" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Create', target_url: '/create' })}>
                 Create
             </Link>
         </ul>
