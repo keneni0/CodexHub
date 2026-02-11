@@ -5,6 +5,8 @@ import BookEvent from "@/components/Book";
 import { getSimilarEventBySlug } from "@/lib/actions/eventactions";
 import { IEvent } from "@/database/event.model";
 import EventCard from "@/components/EventCard";
+import { promises as fs } from 'fs';
+import path from 'path';
 
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -45,17 +47,59 @@ const EventTags = ({ tags }: {tags: string[]}) => (
 )
 
 const EventDetailsPage = async ({params}:{params: Promise<{slug: string}>}) => {  //Next.js automatically injects params from the URL
-    const {slug} = await params;
-    const request  = await fetch(`${BASE_URL}/api/events/${slug}`, { cache: "no-store" });
-    const {event: { description, image, location, date, time, mode, audience, agenda, overview, tags,organizer}} = await request.json();
+        const { slug } = await params;
 
-    if (!description) return notFound();
-    
-    // Fetch similar events inside the function
-    // The return type from getSimilarEventBySlug is not necessarily IEvent[] (see lint error).
-    // Cast to 'any[]' to resolve type incompatibility, or use 'unknown[]' and validate later if needed.
-    // If you have a proper Event type, use it. For now, using 'any[]':
-    const similarEvents: any[] = await getSimilarEventBySlug(slug);
+        // Build a safe API URL. Some environments set NEXT_PUBLIC_BASE_URL="undefined" — guard against that.
+        const baseCandidate = typeof BASE_URL === 'string' && BASE_URL !== 'undefined' && BASE_URL.trim() !== '' ? BASE_URL : undefined;
+        let apiUrl: string;
+        try {
+            apiUrl = baseCandidate ? new URL(`/api/events/${slug}`, baseCandidate).toString() : `/api/events/${slug}`;
+        } catch (e) {
+            apiUrl = `/api/events/${slug}`;
+        }
+
+        let eventSource: any = null;
+        try {
+            const res = await fetch(apiUrl, { cache: 'no-store' });
+            if (res.ok) {
+                const body = await res.json();
+                eventSource = body?.event ?? null;
+            }
+        } catch (err) {
+            eventSource = null;
+        }
+
+        // Fallback to bundled constants or local stored file if API/DB not available
+        if (!eventSource) {
+            const defaults = (await import('@/lib/constants')).default as any[];
+            eventSource = defaults.find((e) => e.slug === slug) ?? null;
+            if (!eventSource) {
+                // try local stored events
+                try {
+                    const DATA_FILE = path.join(process.cwd(), 'data', 'events.json');
+                    const raw = await fs.readFile(DATA_FILE, 'utf8');
+                    const stored = JSON.parse(raw) as any[];
+                    const normalize = (text: string) =>
+                        text
+                            .toString()
+                            .toLowerCase()
+                            .trim()
+                            .replace(/&/g, ' and ')
+                            .replace(/[^a-z0-9\s-]/g, '')
+                            .replace(/\s+/g, '-')
+                            .replace(/-+/g, '-');
+                    eventSource = stored.find((e) => String(e.slug) === slug || String(e._id) === slug || normalize(e.title || '') === slug) ?? null;
+                } catch (e) {
+                    // ignore
+                }
+            }
+        }
+
+        if (!eventSource) return notFound();
+
+        const { description, image, location, date, time, mode, audience, agenda = [], overview = '', tags = [], organizer } = eventSource;
+
+        const similarEvents: any[] = await getSimilarEventBySlug(slug).catch(() => []);
 
     // TODO: Replace with real bookings count when available
     const bookings = 10;

@@ -1,19 +1,14 @@
-'use server'; //all the code within this file will be executed on the server without exposing sensitive info
+'use server';
 
-import Even from '@/database/event.model';
-import connectDB from '../mongoose';
+import defaults from '@/lib/constants';
 
 export const getSimilarEventBySlug = async (slug: string) => {
-    try{
-        await connectDB();
-
-        const event = await Even.findOne({ slug });
-        if (!event) {
-            return [];
-        }
-        return await Even.find({ _id: { $ne: event._id }, tags: { $in: event.tags } }).lean();
-    }
-    catch(error){
-        return[];
-    }
-}
+    const events = (defaults as any[]) || [];
+    const target = events.find((e) => e.slug === slug) || null;
+    if (!target) return [];
+    const firstTag = (target.tags && target.tags[0]) || null;
+    const similar = events.filter(
+        (e) => e.slug !== slug && (firstTag ? (e.tags || []).includes(firstTag) : true)
+    );
+    return similar.slice(0, 4);
+};

@@ -12,17 +12,23 @@ const Navbar = () => {
             <Image src="/icons/logo-v2.png" alt="logo" width={180} height={150} />
         </Link>
 
-        <ul>
-            <Link href="/" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Home', target_url: '/' })}>
-                Home
-            </Link>
-            <Link href="/" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Events', target_url: '/' })}>
-                Events
-            </Link>
-            <Link href="/" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Create', target_url: '/' })}>
-                Create
-            </Link>
-        </ul>
+                <ul style={{ display: 'flex', gap: 20, marginLeft: 24, listStyle: 'none', padding: 0, margin: 0 }}>
+                        <li>
+                            <Link href="/" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Home', target_url: '/' })}>
+                                Home
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/events" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Events', target_url: '/events' })}>
+                                Events
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/create" onClick={() => posthog.capture('navbar_link_clicked', { link_text: 'Create', target_url: '/create' })}>
+                                Create
+                            </Link>
+                        </li>
+                </ul>
         </nav>
     </header>
   )
