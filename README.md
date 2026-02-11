@@ -37,14 +37,5 @@ Event Platform built to manage and showcase events seamlessly. It features a dyn
 - Next.js 16 Caching: Uses server component patterns and cache-aware fetches for performance.
 - PostHog Analytics: Optional integration for tracking user interactions.
 
-🤸 Quick Start
-
-This README intentionally omits step-by-step installation and run commands — you indicated you'll handle deployment. High-level behavior:
-
-- The app prefers MongoDB + Cloudinary when environment variables are provided.
-- Without DB or Cloudinary, it falls back to `lib/constants.ts` (sample events) and `data/events.json` for created events; images go to `public/uploads/`.
-- After creating an event, the client attempts to navigate to `/event/<slug>` and refresh server components so the homepage and event pages show the new item immediately.
-
-
 
 
