@@ -1,4 +1,6 @@
 # Event Platform
+<img width="1346" height="661" alt="image" src="https://github.com/user-attachments/assets/db8367d0-eb09-4bda-a94e-741abcf93197" />
+
 A simple Next.js + TypeScript app for listing and creating developer events. 
 
 📋 Table of Contents
