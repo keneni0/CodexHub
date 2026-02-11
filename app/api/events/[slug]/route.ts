@@ -18,7 +18,8 @@ import path from 'path';
  */
 export async function GET(
   req: NextRequest,
-  ctx: { params: { slug: string } }
+  // `params` can be a Promise in some Next.js versions/types — accept any to match runtime
+  ctx: { params: any }
 ) {
   const params = await ctx.params;
   try {

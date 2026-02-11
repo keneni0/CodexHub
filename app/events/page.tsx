@@ -21,15 +21,9 @@ const EventsPage = async () => {
   // Use the API to fetch events; the API already handles DB vs fallback.
   const bundled = defaults as any[];
   try {
-    const base = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const res = await fetch(new URL('/api/events', base).toString(), { cache: 'no-store' });
-    if (res.ok) {
-      const payload = await res.json();
-      events = payload.events || [];
-    } else {
-      const stored = await readStoredEvents();
-      events = [...stored, ...bundled];
-    }
+    // Avoid doing an internal `fetch` during build; read the stored local events and bundled defaults.
+    const stored = await readStoredEvents();
+    events = [...stored, ...bundled];
   } catch (err) {
     console.error('Failed to fetch /api/events, using bundled + local fallback', err);
     const stored = await readStoredEvents();

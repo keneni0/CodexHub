@@ -3,7 +3,8 @@ import Image from "next/image";
 import { ImageDown } from "lucide-react";
 import BookEvent from "@/components/Book";
 import { getSimilarEventBySlug } from "@/lib/actions/eventactions";
-import { IEvent } from "@/database/event.model";
+// Avoid static import of `@/database/event.model` — use a local any type instead to prevent build-time module resolution errors when DB model is absent.
+type IEvent = any;
 import EventCard from "@/components/EventCard";
 import { promises as fs } from 'fs';
 import path from 'path';
