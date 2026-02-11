@@ -97,9 +97,19 @@ export default function CreateEventPage() {
       const fileInput = document.getElementById("event-image") as HTMLInputElement | null;
       if (fileInput) fileInput.value = "";
 
-      // Refresh and navigate home to show the new event
-      router.refresh();
-      router.push("/");
+      // Navigate to the new event detail when possible so homepage and event pages load latest data
+      const newSlug = body?.event?.slug || body?.event?._id || null;
+      // refresh before navigation to ensure any cached server components update
+      try {
+        router.refresh();
+      } catch (_) {}
+      if (newSlug) {
+        // prefer slug route
+        const slugPath = typeof newSlug === 'string' ? newSlug : String(newSlug);
+        router.push(`/event/${slugPath}`);
+      } else {
+        router.push('/');
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to create event");
     } finally {

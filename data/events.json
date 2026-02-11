@@ -1,0 +1,66 @@
+[
+  {
+    "title": "Startup Founders Meetup & Pitch Night",
+    "description": "An engaging networking and pitch event bringing together early-stage founders, investors, and tech enthusiasts to share ideas, showcase startups, and build meaningful connections.",
+    "overview": "This meetup is designed to support Ethiopia’s growing startup ecosystem. Selected founders will pitch their ideas, receive feedback from industry experts, and connect with potential partners and investors.",
+    "venue": "Skylight Hotel – Meeting Hall B",
+    "location": "Addis Ababa, Ethiopia",
+    "date": "2026-03-02",
+    "time": "06:00",
+    "mode": "offline",
+    "audience": "Startup founders, Investors, Developers, Product Managers, Business Students",
+    "agenda": [
+      "Registration & Welcome Coffee",
+      "Opening Remarks",
+      "Founder Pitch Session (5 startups)",
+      "Investor Feedback Panel",
+      "Networking Break",
+      "Closing & Group Photo"
+    ],
+    "tags": [
+      "startup",
+      "entrepreneurship",
+      "networking",
+      "pitch event",
+      "innovation",
+      "tech community"
+    ],
+    "organizer": "Addis Innovation Community",
+    "image": "/uploads/1770817101331.png",
+    "_id": "local-1770817101342",
+    "slug": "startup-founders-meetup-and-pitch-night",
+    "createdAt": "2026-02-11T13:38:21.342Z"
+  },
+  {
+    "title": "AI & Cybersecurity Workshop 2026",
+    "slug": "ai-and-cybersecurity-workshop-2026",
+    "description": "A hands-on workshop focused on practical cybersecurity testing, AI-powered security tools, and modern web vulnerabilities. Designed for developers, QA engineers, and security enthusiasts.",
+    "overview": "This event will cover real-world penetration testing techniques, OWASP Top 10 vulnerabilities, API security, and AI tools used in security testing. Participants will engage in live demonstrations and practical labs.",
+    "venue": "Addis Tech Hub Conference Hall",
+    "location": "Addis Ababa, Ethiopia",
+    "date": "2026-03-03",
+    "time": "06:00",
+    "mode": "online",
+    "audience": "Developers, QA Engineers, Cybersecurity Students, IT Professionals",
+    "agenda": [
+      "Registration & Networking",
+      "Introduction to Modern Web Security",
+      "OWASP Top 10 Deep Dive",
+      "API Security Testing",
+      "Hands-on Bug Hunting Session",
+      "Q&A and Closing Remarks"
+    ],
+    "tags": [
+      "cybersecurity",
+      "AI",
+      "web security",
+      "OWASP",
+      "penetration testing",
+      "QA"
+    ],
+    "organizer": "MISS X QA Engineer & Security Researcher",
+    "image": "/uploads/1770814843346.jpeg",
+    "_id": "local-1770814843531",
+    "createdAt": "2026-02-11T13:00:43.531Z"
+  }
+]
