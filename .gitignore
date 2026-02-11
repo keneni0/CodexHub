@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# ignore cursor rules and temp tooling
+.cursor/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
