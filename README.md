@@ -6,9 +6,6 @@ A simple Next.js + TypeScript app for listing and creating developer events.
     ✨ Introduction
     ⚙️ Tech Stack
     🔋 Features
-    🤸 Quick Start
-    🔗 Assets
-    🚀 More
 
 
 ✨ Introduction
