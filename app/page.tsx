@@ -22,15 +22,9 @@ const page = async () => {
   let events: any[] = [];
 
   try {
-    const base = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const res = await fetch(new URL('/api/events', base).toString(), { cache: 'no-store' });
-    if (res.ok) {
-      const payload = await res.json();
-      events = payload.events || [];
-    } else {
-      const stored = await readStoredEvents();
-      events = [...stored, ...bundled];
-    }
+    // Avoid fetching an internal API during build — read the local store and bundled constants directly.
+    const stored = await readStoredEvents();
+    events = [...stored, ...bundled];
   } catch (err) {
     console.error('Failed to fetch /api/events on homepage, using bundled + local fallback', err);
     const stored = await readStoredEvents();
